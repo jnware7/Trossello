@@ -39,6 +39,9 @@ const logout = () =>
     location.assign('/')
   })
 
+const searchUsersToInvite = searchTerm => 
+  post('/api/boards/users/search', {searchTerm})
+
 const boardsDropdownToggle = user =>
   post(`/api/users/${user.id}/${user.boards_dropdown_lock ? 'unlock' : 'lock'}dropdown`)
     .then(reloadSessionStore)
@@ -230,4 +233,5 @@ export default {
   updateComment,
   deleteComment,
   editCardForm,
+  searchUsersToInvite
 }

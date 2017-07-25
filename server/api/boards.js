@@ -41,6 +41,7 @@ router.get('/:boardId', (request, response, next ) => {
       if(request.query.download === '1'){
         response.attachment(`board${boardId}.json`)
       }
+      console.log('THE BOARD: --=--=-==-=-=-', board)
       response.json(board)
     }else{
       response.status(404).json(null)
@@ -211,6 +212,25 @@ router.get('/:boardId/labels/:labelId', (request, response, next) => {
       response.json(label)
     })
     .catch(next)
+})
+
+// SEARCH FOR USERS TO INVITE
+router.post('/users/search', (request, response) => {
+  const { searchTerm } = request.body
+  console.log(searchTerm)
+  queries.getUsersToInvite(searchTerm)
+    .then(users => {
+      if (!users) {
+        console.log('no user')
+        return null
+      } else if (users) {
+        console.log(users);
+        response.json(users)
+      }
+    })
+    .catch(error => {
+      response.status(500).json(error.message)
+    })
 })
 
 export default router

@@ -15,6 +15,7 @@ class InviteByEmailPopover extends Component {
     this.state = {
       creatingInvite: false,
       alreadyInvited: false,
+      value:''
     }
     this.onSubmit = this.onSubmit.bind(this)
     this.changeInputHandler = this.changeInputHandler.bind(this)
@@ -47,8 +48,13 @@ class InviteByEmailPopover extends Component {
       })
   }
 
-  changeInputHandler(){
-    this.setState({alreadyInvited: false})
+  changeInputHandler(event){
+    this.setState({value: event.target.value, alreadyInvited: false})
+    const searchTerm = this.state.value
+    commands.searchUsersToInvite(searchTerm)
+      .then(users => {
+        console.log(users)
+      })
   }
 
   render() {
@@ -69,10 +75,10 @@ class InviteByEmailPopover extends Component {
     return <DialogBox className="InviteByEmailPopover" onClose={this.props.onClose} heading="Add Members">
       <Form onSubmit={this.onSubmit}>
         <input
-          className='emailInput'
-          type="email"
-          ref="email"
-          name='email'
+          className='searchTerm'
+          name='searchTerm'
+          type='text'
+          value={this.state.value}
           onChange={this.changeInputHandler}
           placeholder="e.g. burritos@trossello.com"
           disabled={this.state.creatingInvite}

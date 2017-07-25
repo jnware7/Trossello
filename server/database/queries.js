@@ -139,7 +139,6 @@ const getListsAndCardsForBoard = (board) => {
 const getListById = (id) =>
   getRecordById('lists', id)
 
-
 const getCardById = (id) =>
   getRecordById('cards', id)
 
@@ -168,6 +167,12 @@ const getActivityByBoardId = (boardId) => {
     .orderBy('created_at', 'desc')
 }
 
+const getUsersToInvite = (searchTerm) => {
+  return knex.table('users')
+    .select('*')
+    .where('name', 'like' , `%${searchTerm}%`)
+}
+
 export default {
   getUsers,
   getUserById,
@@ -181,4 +186,5 @@ export default {
   getBoardMoveTargetsForUserId,
   getLabelById,
   getActivityByBoardId,
+  getUsersToInvite
 }
